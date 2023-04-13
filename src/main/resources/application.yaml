@@ -1,1 +1,15 @@
+server:
+  port: 8080
 
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?user=postgres&password=mysecretpassword
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+  jooq:
+    sql-dialect: POSTGRES
+
+logging:
+  level:
+    root: info
