@@ -19,4 +19,14 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
         )
         return userRepository.createUser(user)
     }
+
+    @Transactional
+    override fun updateUser(id: UUID, name: String): User? {
+        return userRepository.updateUser(id, name)
+    }
+
+    @Transactional
+    override fun deleteUser(id: UUID): Int {
+        return userRepository.deleteUser(id)
+    }
 }
