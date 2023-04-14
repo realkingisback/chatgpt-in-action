@@ -29,4 +29,12 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
     override fun deleteUser(id: UUID): Int {
         return userRepository.deleteUser(id)
     }
+
+    override fun getUserById(id: UUID): User? {
+        return userRepository.getUserById(id)
+    }
+
+    override fun getAllUsers(): List<User> {
+        return userRepository.getAllUsers()
+    }
 }

@@ -41,6 +41,26 @@ class UserRepositoryImpl(private val jdbcTemplate: JdbcTemplate) : UserRepositor
         return jdbcTemplate.update(sql, id)
     }
 
+    override fun getUserById(id: UUID): User? {
+        val sql = "SELECT id, name, email FROM users WHERE id = ?"
+        val args = arrayOf<Any>(id)
+        val argTypes = intArrayOf(Types.OTHER)
+        return try {
+            jdbcTemplate.query(sql, args, argTypes) { rs, _ ->
+                mapResultSetToUser(rs)
+            }.firstOrNull()
+        } catch (ex: EmptyResultDataAccessException) {
+            null
+        }
+    }
+
+    override fun getAllUsers(): List<User> {
+        val sql = "SELECT id, name, email FROM users"
+        return jdbcTemplate.query(sql) { rs, _ ->
+            mapResultSetToUser(rs)
+        }
+    }
+
     private fun mapResultSetToUser(rs: ResultSet): User {
         return User(
             id = rs.getObject("id", UUID::class.java),
