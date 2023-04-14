@@ -4,6 +4,7 @@ import de.tech26.chatgptinaction.application.services.CreateUserCommand
 import de.tech26.chatgptinaction.application.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -38,6 +39,20 @@ class UserController(private val userService: UserService) {
         userService.updateUser(request.id, request.name)?.let {
             UserResponse(it.id, it.name, it.email)
         } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: ${request.id}")
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getUserById(@PathVariable id: UUID): UserResponse {
+        return userService.getUserById(id)?.let { UserResponse(it.id, it.name, it.email) }
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: $id")
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllUsers(): List<UserResponse> {
+        val users = userService.getAllUsers()
+        return users.map { UserResponse(it.id, it.name, it.email) }
+    }
 }
 
 data class CreateUserRequest(

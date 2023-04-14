@@ -7,6 +7,8 @@ interface UserService {
     fun createUser(command: CreateUserCommand): User
     fun updateUser(id: UUID, name: String): User?
     fun deleteUser(id: UUID): Int
+    fun getUserById(id: UUID): User?
+    fun getAllUsers(): List<User>
 }
 
 data class CreateUserCommand(

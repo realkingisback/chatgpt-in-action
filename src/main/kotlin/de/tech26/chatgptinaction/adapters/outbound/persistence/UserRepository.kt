@@ -7,4 +7,6 @@ interface UserRepository {
     fun createUser(user: User): User
     fun updateUser(id: UUID, name: String): User?
     fun deleteUser(id: UUID): Int
+    fun getUserById(id: UUID): User?
+    fun getAllUsers(): List<User>
 }
